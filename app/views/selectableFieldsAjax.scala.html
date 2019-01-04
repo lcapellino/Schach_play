@@ -1,0 +1,10 @@
+@(moves: Vector[(Int,Int)])
+
+{ "moves":[@for(move <- moves){
+    @if(move == moves.last){
+        {"y":"@move._1","x":"@move._2"}
+    }else{
+        {"y":"@move._1","x":"@move._2"},
+    }
+
+}]}
