@@ -55,6 +55,35 @@ body {
     background-color: #ff5856;
 }
 
+.outer{
+    width:100%;
+}
+.inner{
+    width:50%;
+    margin:0 auto;
+    text-align:center;
+}
+
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('/assets/images/Loading_icon.gif')
+                50% 50%
+                no-repeat;
+}
+body.loading .modal {
+    display: block;
+}
+body.loading .modal {
+    overflow: hidden;
+}
+
 img {
     margin: 0px;
     padding: 0px;
