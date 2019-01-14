@@ -4,12 +4,14 @@
 # ~~~~
 
 GET     /                           controllers.MainController.index
-GET     /schach                     controllers.MainController.schach
-# An example controller showing how to use dependency injection
-GET     /move                       controllers.MainController.move(move: String)
+#GET     /schach                     controllers.MainController.schach
 
-GET     /select                     controllers.MainController.select(y: Int,x: Int)
 
+
+#JSON Routes
+GET    /move                        controllers.MainController.move(move: String, webSocketID: String)
+GET    /select                      controllers.MainController.select(y: Int,x: Int, webSocketID: String)
+GET    /json                        controllers.MainController.json(webSocketID: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

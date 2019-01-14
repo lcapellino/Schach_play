@@ -1,10 +1,12 @@
 $(document).ready(function() {
-    $(".moveable").click(function () {
+    $("body").on('click','.moveable',function () {
 
         var y = $(this).attr("y");
         var x = $(this).attr("x");
         $(this).addClass("selected");
-        $.ajax({url: "/select?y="+y+"&x="+x, success: function(result){
+        $.ajax({
+            url: "/select?y=" + y + "&x=" + x + "&webSocketID=" + WEBSOCKET_ID,
+            success: function(result){
             $("td").removeClass("selected");
             $("td").removeClass("selectableField");
 
@@ -20,6 +22,11 @@ $(document).ready(function() {
     $("body").on('click','.selectableField' , function () {
         var source = $(".selected").parent().attr("id");
         var dest = $(this).attr("id");
-        document.location.href = "/move?move=" + source + "-"+ dest;
+        $.ajax({
+            url: "/move?move=" + source+"-"+dest + "&webSocketID=" + WEBSOCKET_ID,
+            success: function(result){
+                //expect Websocket event.
+            }});
+       // document.location.href = "/move?move=" + source + "-"+ dest;
     });
 });
