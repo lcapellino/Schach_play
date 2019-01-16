@@ -20,6 +20,6 @@ libraryDependencies ++= Seq(
 )
 
 
-//unmanagedResourceDirectories in Test +=  (baseDirectory ( _ /"target/web/public/test" )).value  
+unmanagedResourceDirectories in Test +=  (baseDirectory ( _ /"target/web/public/main" )).value
 
       
