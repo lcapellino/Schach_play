@@ -2,11 +2,11 @@ import com.typesafe.sbt.SbtScalariform._
 
 import scalariform.formatter.preferences._
 
-name := "schach_play"
+name := "play-silhouette-seed"
 
 version := "5.0.7"
 
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.8"
 
 resolvers += Resolver.jcenterRepo
 

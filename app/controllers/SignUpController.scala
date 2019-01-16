@@ -93,7 +93,7 @@ class SignUpController @Inject() (
               email = Some(data.email),
               avatarURL = None,
               //activated = false
-              activated = true // TODO delete to avoid activating all users by default
+              activated = true
             )
             for {
               avatar <- avatarService.retrieveURL(data.email)
