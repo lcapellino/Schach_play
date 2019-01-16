@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/schach_play -Dhttp.port=9000
+web: target/universal/stage/bin/schach_play -Dhttp.port=${PORT}
