@@ -41,6 +41,11 @@ body {
     margin: 0px;
     padding: 0px;
 }
+
+.moveable:hover{
+    background-color: #68faff;
+}
+
 .moveable:hover{
     background-color: #68faff;
 }
@@ -64,19 +69,9 @@ body {
     text-align:center;
 }
 
-.modal {
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .8 )
-                url('/assets/images/Loading_icon.gif')
-                50% 50%
-                no-repeat;
-}
+
+
+
 body.loading .modal {
     display: block;
 }
@@ -99,6 +94,9 @@ img {
     img, .chessRow{
         height: 30px;
     }
+    h2{
+        font-size: 1rem !important;
+    }
 }
 @media (min-width: 480px) {
     .chesscontainer {
@@ -107,6 +105,10 @@ img {
     }
     img, .chessRow{
         height: 60px;
+    }
+
+    h2{
+        font-size: 1rem !important;
     }
 }
 
@@ -119,6 +121,10 @@ img {
     img, .chessRow{
         height: 100px;
     }
+
+    h2{
+        font-size: 1.5rem !important;
+    }
 }
 
 @media (min-width: 1080px) {
@@ -129,5 +135,8 @@ img {
 
     img, .chessRow{
         height: 135px;
+    }
+    h2{
+        font-size: 1.5rem !important;
     }
 }

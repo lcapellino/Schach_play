@@ -11,8 +11,7 @@ $(document).ready(function(){
     socket.onopen = function(){}
     socket.onmessage = function(message){
         if(message.data === "wait"){
-            $("body").append("<div class='modal'>");
-            $("body").addClass("loading");
+            $(".chesscontainer").empty().append("<div class=\"d-flex justify-content-center\"><div class=\"spinner-border \" role=\"status\"><span class=\"sr-only\">Loading...</span></div></div>");
         }
         if(message.data.startsWith("load:")){
             var id = message.data.substring(5, message.data.length);
@@ -46,7 +45,7 @@ $(document).ready(function(){
 
     function load_chessfield(chessBoardJSON) {
         CURRENT_PLAYER  = chessBoardJSON.grid.player;
-        $("body").empty().append("<div class=\"chesscontainer\">\n<table class=\"chesstable\"></table>\n</div>");//Container of the App
+        $(".chesscontainer").empty().append("<table class=\"chesstable\"></table>");//Container of the App
         var board = $('.chesstable');
 
         var color;
@@ -62,6 +61,8 @@ $(document).ready(function(){
             }
             board.append(row);
         }
+
+        alertPlayers();
     }
 
     function makeSquare(cells,row, color,rownumber, colnumber) {
@@ -154,6 +155,21 @@ $(document).ready(function(){
             imageString = "black_rook.png";
         }
         return "<img src='/assets/images/"+imageString +"'>";
+    }
+
+    function alertPlayers(){
+        if(CURRENT_PLAYER == PLAYER_COLOR){
+            $.growl.notice({ message: "Du bist dran!" });
+        }else {
+            $.growl.notice({ message: "Dein Gegner ist dran!" });
+        }
+        /*
+         $.growl({ title: "Growl", message: "The kitten is awake!" });
+            $.growl.error({ message: "The kitten is attacking!" });
+            $.growl.notice({ message: "The kitten is cute!" });
+            $.growl.warning({ message: "The kitten is ugly!" });
+         */
+
     }
 
 });
