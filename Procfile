@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/schach_play  
+web: target/universal/stage/bin/schach_play
