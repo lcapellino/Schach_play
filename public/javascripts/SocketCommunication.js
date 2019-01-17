@@ -7,7 +7,7 @@ var PLAYER_COLOR;
 
 
 $(document).ready(function(){
-    var socket = new WebSocket("ws://localhost:9000/socket");
+    var socket = new WebSocket("wss://schachplay.herokuapp.com/socket");
     socket.onopen = function(){}
     socket.onmessage = function(message){
         if(message.data === "wait"){
