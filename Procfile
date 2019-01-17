@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/schach_play -Dhttp.port=${PORT} -Dconfig.resource=${PLAY_CONF_FILE} -XX:+UseContainerSupport  java.runtime.version=11
+web: target/universal/stage/bin/schach_play  
