@@ -7,7 +7,13 @@ var PLAYER_COLOR;
 
 
 $(document).ready(function(){
-    var socket = new WebSocket("wss://schachplay.herokuapp.com/socket");
+    var socketAddr;
+    if(window.location.host.startsWith("local")){
+        socketAddr = "ws://" +window.location.host;
+    } else {
+        socketAddr = "wss://" +window.location.host;
+    }
+    var socket = new WebSocket(socketAddr +"/socket");
     //var socket = new WebSocket("ws://localhost:9000/socket");
     socket.onopen = function(){}
     socket.onmessage = function(message){
