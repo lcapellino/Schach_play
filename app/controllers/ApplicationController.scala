@@ -55,22 +55,22 @@ class ApplicationController @Inject() (
     Future.successful(Ok(views.html.welcome()))
   }
 
-  def select(y: Int, x: Int, webSocketID: String) = Action {
+  def select(y: Int, x: Int, webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     var controller = getChesscontroller(webSocketID)
-    Ok(views.html.selectableFieldsAjax(controller.chessBoard(y)(x).getPossibleMoves(controller.chessBoard)));
+    Future.successful(Ok(views.html.selectableFieldsAjax(controller.chessBoard(y)(x).getPossibleMoves(controller.chessBoard))));
   }
 
-  def move(move: String, webSocketID: String) = Action {
+  def move(move: String, webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     var controller = getChesscontroller(webSocketID)
     var tui = new tui(controller)
     tui.processInputLine(move)
     informPlayers(controller);
-    Ok("")
+    Future.successful(Ok(""))
   }
 
-  def json(webSocketID: String) = Action {
+  def json(webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     var controller = getChesscontroller(webSocketID)
-    Ok(jsonConverter.gridToJson(controller.chessBoard, controller.currentPlayer))
+    Future.successful(Ok(jsonConverter.gridToJson(controller.chessBoard, controller.currentPlayer)))
   }
 
   def socket = WebSocket.accept[String, String] { request =>
