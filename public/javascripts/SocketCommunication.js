@@ -6,6 +6,20 @@ var CURRENT_PLAYER;
 var PLAYER_COLOR;
 
 
+
+$.ajax({
+    url: "/user",
+    context: document.body
+}).done(function(data) {
+    var jsondata = JSON.parse(data);
+    alert(jsondata.user.firstname);
+
+});
+
+
+
+
+
 $(document).ready(function(){
     var socketAddr;
     if(window.location.host.startsWith("local")){
@@ -18,7 +32,7 @@ $(document).ready(function(){
     socket.onopen = function(){}
     socket.onmessage = function(message){
         if(message.data === "wait"){
-            $(".chesscontainer").empty().append("<div class=\"d-flex justify-content-center\"><div class=\"spinner-border \" role=\"status\"><span class=\"sr-only\">Loading...</span></div></div>");
+            $(".chesscontainer").empty().append("<div class=\"d-flex justify-content-center m-5\"><div class=\"spinner-border \" style=\"width: 5rem; height: 5rem;\" role=\"status\"><span class=\"sr-only\">Loading...</span></div></div>");
         }
         if(message.data.startsWith("load:")){
             var id = message.data.substring(5, message.data.length);
@@ -31,11 +45,11 @@ $(document).ready(function(){
     socket.onerror = function(){ }
     socket.onclose = function(){ }
 
-    $('#white').click(function(){
+    $("body").on('click','#white',function () {
         PLAYER_COLOR = 1;
         socket.send("white");
     });
-    $('#black').click(function(){
+    $("body").on('click','#black',function () {
         PLAYER_COLOR = 0;
         socket.send("black");
     });

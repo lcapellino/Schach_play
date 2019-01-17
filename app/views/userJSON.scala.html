@@ -1,0 +1,17 @@
+@import play.api.i18n.Messages
+@import play.api.mvc.RequestHeader
+@import org.webjars.play.WebJarsUtil
+@import controllers.AssetsFinder
+
+@(user: models.User)(implicit request: RequestHeader, messages: Messages, webJarsUtil: WebJarsUtil, assets: AssetsFinder)
+
+{
+    "user":{
+        "firstname": "@user.firstName.getOrElse("None")",
+        "lastname": "@user.lastName.getOrElse("None")",
+        "fullname": "@user.fullName.getOrElse("None")",
+        "email": "@user.email.getOrElse("None")",
+        "imgsrc" : "@user.avatarURL.getOrElse(assets.path("images/silhouette.png"))"
+    }
+}
+

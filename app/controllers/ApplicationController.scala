@@ -55,6 +55,10 @@ class ApplicationController @Inject() (
     Future.successful(Ok(views.html.welcome()))
   }
 
+  def user = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    Future.successful(Ok(views.html.userJSON(request.identity)))
+  }
+
   def select(y: Int, x: Int, webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     var controller = getChesscontroller(webSocketID)
     Future.successful(Ok(views.html.selectableFieldsAjax(controller.chessBoard(y)(x).getPossibleMoves(controller.chessBoard))));

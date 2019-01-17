@@ -4,7 +4,9 @@ body {
 }
 
 .chesscontainer {
-    margin:auto;
+    margin-left:auto;
+    margin-right: auto;
+    margin-top: 3rem;
 }
 
 .square {
@@ -127,16 +129,3 @@ img {
     }
 }
 
-@media (min-width: 1080px) {
-    .chesscontainer {
-        width: 1080px;
-        height: 1080px;
-    }
-
-    img, .chessRow{
-        height: 135px;
-    }
-    h2{
-        font-size: 1.5rem !important;
-    }
-}

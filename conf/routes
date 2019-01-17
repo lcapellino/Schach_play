@@ -8,7 +8,9 @@ GET         /signOut                         controllers.ApplicationController.s
 GET         /move                            controllers.ApplicationController.move(move: String, webSocketID: String)
 GET         /select                          controllers.ApplicationController.select(y: Int,x: Int, webSocketID: String)
 GET         /json                            controllers.ApplicationController.json(webSocketID: String)
+GET         /user                            controllers.ApplicationController.user
 GET         /authenticate/:provider          controllers.SocialAuthController.authenticate(provider)
+
 
 #JSON Routes
 
