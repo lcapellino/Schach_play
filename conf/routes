@@ -1,20 +1,37 @@
-
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                           controllers.MainController.index
-#GET     /schach                     controllers.MainController.schach
-
-
+# Home page
+GET         /                                controllers.ApplicationController.index
+GET         /signOut                         controllers.ApplicationController.signOut
+GET         /move                            controllers.ApplicationController.move(move: String, webSocketID: String)
+GET         /select                          controllers.ApplicationController.select(y: Int,x: Int, webSocketID: String)
+GET         /json                            controllers.ApplicationController.json(webSocketID: String)
+GET         /authenticate/:provider          controllers.SocialAuthController.authenticate(provider)
 
 #JSON Routes
-GET    /move                        controllers.MainController.move(move: String, webSocketID: String)
-GET    /select                      controllers.MainController.select(y: Int,x: Int, webSocketID: String)
-GET    /json                        controllers.MainController.json(webSocketID: String)
+
+
+GET         /signUp                          controllers.SignUpController.view
+POST        /signUp                          controllers.SignUpController.submit
+
+GET         /signIn                          controllers.SignInController.view
+POST        /signIn                          controllers.SignInController.submit
+
+GET         /password/forgot                 controllers.ForgotPasswordController.view
+POST        /password/forgot                 controllers.ForgotPasswordController.submit
+GET         /password/reset/:token           controllers.ResetPasswordController.view(token: java.util.UUID)
+POST        /password/reset/:token           controllers.ResetPasswordController.submit(token: java.util.UUID)
+GET         /password/change                 controllers.ChangePasswordController.view
+POST        /password/change                 controllers.ChangePasswordController.submit
+
+GET         /account/email/:email            controllers.ActivateAccountController.send(email: String)
+GET         /account/activate/:token         controllers.ActivateAccountController.activate(token: java.util.UUID)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                    controllers.Assets.versioned(file)
+->          /webjars                         webjars.Routes
 
 #Websocket
-GET     /socket                     controllers.MainController.socket
+GET     /socket                     controllers.ApplicationController.socket

@@ -1,0 +1,133 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.chesscontainer {
+    margin:auto;
+}
+
+.square {
+    margin: 0px;
+    padding: 0px;
+}
+
+.brown {
+    background-color: #8b4513;
+}
+
+.tan {
+    background-color: #cd853f;
+}
+
+.fill {
+    min-height: 100%;
+    height: 100%;
+}
+.chessRow {
+    margin: 0px;
+    padding: 0px;
+}
+.chesstable{
+    border:none;
+    border-collapse: collapse;
+    width:100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+.tabledata{
+
+    margin: 0px;
+    padding: 0px;
+}
+.moveable:hover{
+    background-color: #68faff;
+}
+.selected{
+    background-color: #68faff;
+}
+
+.selectableField{
+    background-color: #9eff9b;
+}
+.selectableField:hover{
+    background-color: #ff5856;
+}
+
+.outer{
+    width:100%;
+}
+.inner{
+    width:50%;
+    margin:0 auto;
+    text-align:center;
+}
+
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('/assets/images/Loading_icon.gif')
+                50% 50%
+                no-repeat;
+}
+body.loading .modal {
+    display: block;
+}
+body.loading .modal {
+    overflow: hidden;
+}
+
+img {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+
+@media (min-width: 240px) {
+    .chesscontainer {
+        width: 240px;
+        height: 240px;
+    }
+    img, .chessRow{
+        height: 30px;
+    }
+}
+@media (min-width: 480px) {
+    .chesscontainer {
+        width: 480px;
+        height: 480px;
+    }
+    img, .chessRow{
+        height: 60px;
+    }
+}
+
+@media (min-width: 800px) {
+    .chesscontainer {
+        width: 800px;
+        height: 800px;
+    }
+
+    img, .chessRow{
+        height: 100px;
+    }
+}
+
+@media (min-width: 1080px) {
+    .chesscontainer {
+        width: 1080px;
+        height: 1080px;
+    }
+
+    img, .chessRow{
+        height: 135px;
+    }
+}
