@@ -12,8 +12,6 @@ GET         /user                            controllers.ApplicationController.u
 GET         /authenticate/:provider          controllers.SocialAuthController.authenticate(provider)
 
 
-#JSON Routes
-
 
 GET         /signUp                          controllers.SignUpController.view
 POST        /signUp                          controllers.SignUpController.submit
