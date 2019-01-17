@@ -7,19 +7,6 @@ var PLAYER_COLOR;
 
 
 
-$.ajax({
-    url: "/user",
-    context: document.body
-}).done(function(data) {
-    var jsondata = JSON.parse(data);
-    alert(jsondata.user.firstname);
-
-});
-
-
-
-
-
 $(document).ready(function(){
     var socketAddr;
     if(window.location.host.startsWith("local")){
@@ -29,7 +16,9 @@ $(document).ready(function(){
     }
     var socket = new WebSocket(socketAddr +"/socket");
     //var socket = new WebSocket("ws://localhost:9000/socket");
-    socket.onopen = function(){}
+    socket.onopen = function(){
+        keepAlive();
+    }
     socket.onmessage = function(message){
         if(message.data === "wait"){
             $(".chesscontainer").empty().append("<div class=\"d-flex justify-content-center m-5\"><div class=\"spinner-border \" style=\"width: 5rem; height: 5rem;\" role=\"status\"><span class=\"sr-only\">Loading...</span></div></div>");
@@ -44,6 +33,17 @@ $(document).ready(function(){
     }
     socket.onerror = function(){ }
     socket.onclose = function(){ }
+
+
+    function keepAlive() {
+        var timeout = 20000;
+        alert();
+        if (socket.readyState == socket.OPEN) {
+            socket.send('');
+        }
+        timerId = setTimeout(keepAlive, timeout);
+    }
+
 
     $("body").on('click','#white',function () {
         PLAYER_COLOR = 1;
@@ -66,8 +66,7 @@ $(document).ready(function(){
 
     function load_chessfield(chessBoardJSON) {
         CURRENT_PLAYER  = chessBoardJSON.grid.player;
-        $(".chesscontainer").empty().append("<table class=\"chesstable\"></table>");//Container of the App
-        var board = $('.chesstable');
+        var board = $('<table class="chesstable"></table>');
 
         var color;
         var i = 0;
@@ -82,6 +81,10 @@ $(document).ready(function(){
             }
             board.append(row);
         }
+        if(CURRENT_PLAYER == PLAYER_COLOR){
+            board.addClass("shakeit");
+        }
+        $(".chesscontainer").empty().append(board);
 
         alertPlayers();
     }

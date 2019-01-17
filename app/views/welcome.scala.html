@@ -1,6 +1,6 @@
 @import controllers.AssetsFinder
 
-@()(implicit assets: AssetsFinder)
+@(user: models.User, white_count: Int, black_count: Int)(implicit assets: AssetsFinder)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +20,7 @@
     <body>
         <nav class="navbar navbar-dark bg-dark">
             <span class="navbar-brand mb-0 h1">Schach</span>
+                <span class="navbar-text">@user.fullName.getOrElse("None") </span>
         </nav>
         <div class="chesscontainer">
             <div class="outer">
@@ -31,6 +32,8 @@
                     v-bind:todo="item"
                     v-bind:key="item.id"
                     ></todo-item>
+                    <h6>Weise Spieler wartend: @white_count</h6>
+                    <h6>Schwarze Spieler wartend: @black_count</h6>
                 </div>
             </div>
         </div>

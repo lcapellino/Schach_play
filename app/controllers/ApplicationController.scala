@@ -52,11 +52,9 @@ class ApplicationController @Inject() (
    * @return The result to display.
    */
   def index = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-    Future.successful(Ok(views.html.welcome()))
-  }
-
-  def user = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-    Future.successful(Ok(views.html.userJSON(request.identity)))
+    val white_count = searchingPlayers.filter(_._1.equals("white")).size
+    val black_count = searchingPlayers.filter(_._1.equals("black")).size
+    Future.successful(Ok(views.html.welcome(request.identity, white_count, black_count)))
   }
 
   def select(y: Int, x: Int, webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
