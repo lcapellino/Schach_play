@@ -60,7 +60,6 @@ $(document).ready(function(){
             context: document.body
         }).done(function(chessBoardJSON) {
             load_chessfield(chessBoardJSON)
-
         });
     }
 
@@ -84,6 +83,15 @@ $(document).ready(function(){
         if(CURRENT_PLAYER == PLAYER_COLOR){
             board.addClass("shakeit");
         }
+
+        if(chessBoardJSON.grid.whiteCheck == true){
+            board.find(".white_king").addClass("shakeallways");
+        }
+        if(chessBoardJSON.grid.blackCheck == true){
+            board.find(".black_king").addClass("shakeallways");
+        }
+
+
         $(".chesscontainer").empty().append(board);
 
         alertPlayers();
@@ -93,20 +101,28 @@ $(document).ready(function(){
         var piecePrinted = false;
         var coordinates = "y=" + rownumber + " x=" + colnumber;
         cells.forEach(function(cell){
-            if(cell.row == rownumber && cell.col == colnumber){
+            if(cell.posY == rownumber && cell.posX == colnumber){
                 var imageString = chooseChesspiece(cell.piece);
+                var king_id = "";
 
+                if(imageString.includes("white_king.png")){
+                    king_id = "white_king";
+                }
+                if(imageString.includes("black_king.png")){
+                    king_id = "black_king";
+                }
                 if(PLAYER_COLOR == CURRENT_PLAYER){
 
+
                     if(CURRENT_PLAYER && imageString.includes("white")){
-                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' "><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'" ' + coordinates+ '>' + imageString + '</div></td>');
+                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +'"><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'" ' + coordinates+ '>' + imageString + '</div></td>');
                     } else if(!CURRENT_PLAYER && imageString.includes("black")) {
-                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' "><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
+                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
                     } else {
-                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' "><div class="tabledata " hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
+                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata " hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
                     }
                 } else {
-                    row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' "><div class="tabledata " hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
+                    row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata " hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
                 }
                 piecePrinted = true;
             }

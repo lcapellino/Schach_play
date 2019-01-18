@@ -63,7 +63,7 @@ class ApplicationController @Inject() (
 
   def select(y: Int, x: Int, webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     var controller = getChesscontroller(webSocketID)
-    Future.successful(Ok(views.html.selectableFieldsAjax(controller.chessBoard(y)(x).getPossibleMoves(controller.chessBoard))));
+    Future.successful(Ok(views.html.selectableFieldsAjax(controller.chessBoard.board(y)(x).getPossibleMoves(controller.chessBoard))));
   }
 
   def move(move: String, webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
@@ -76,7 +76,7 @@ class ApplicationController @Inject() (
 
   def json(webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     var controller = getChesscontroller(webSocketID)
-    Future.successful(Ok(jsonConverter.gridToJson(controller.chessBoard, controller.currentPlayer)))
+    Future.successful(Ok(jsonConverter.gridToJson(controller.chessBoard)))
   }
 
   def socket = WebSocket.accept[String, String] { request =>
@@ -140,7 +140,6 @@ class ApplicationController @Inject() (
       if (chessmatch._1.toString().equals(webSocketID) || chessmatch._2.toString().equals(webSocketID)) {
         controller = chessmatch._3
 
-        println("gefundener Chesscontroller:" + controller.boardSize)
       }
     }
     controller

@@ -46,6 +46,11 @@ body {
     animation-iteration-count: 1;
 }
 
+.shakeallways{
+    animation: shake 0.4s;
+    animation-iteration-count: infinite;
+}
+
 .tabledata{
 
     margin: 0px;
