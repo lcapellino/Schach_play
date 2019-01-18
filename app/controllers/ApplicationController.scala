@@ -54,7 +54,11 @@ class ApplicationController @Inject() (
   def index = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     val white_count = searchingPlayers.filter(_._1.equals("white")).size
     val black_count = searchingPlayers.filter(_._1.equals("black")).size
-    Future.successful(Ok(views.html.welcome(request.identity, white_count, black_count)))
+    Future.successful(Ok(views.html.multiplayer(request.identity, white_count, black_count)))
+  }
+
+  def singleplayer = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    Future.successful(Ok(views.html.singleplayer(request.identity)))
   }
 
   def select(y: Int, x: Int, webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
@@ -90,6 +94,10 @@ class ApplicationController @Inject() (
     def receive = {
       case msg: String =>
 
+        if (msg.equals("singleplayer")) {
+          currentMatches = currentMatches :+ ((out, out, new ChessController))
+        }
+
         if (msg.equals("white")) { //looking for blacks lol
           searchPlayer(msg, "black")
         }
@@ -97,7 +105,6 @@ class ApplicationController @Inject() (
           searchPlayer(msg, "white")
         }
 
-      //out.tell("HI", sender())
     }
     def searchPlayer(msg: String, color: String): Unit = {
       var foundPlayer = false;

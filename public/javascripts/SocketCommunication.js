@@ -31,19 +31,19 @@ $(document).ready(function(){
             getChessfieldAjax();
         }
     }
-    socket.onerror = function(){ }
-    socket.onclose = function(){ }
 
 
     function keepAlive() {
         var timeout = 20000;
-        alert();
         if (socket.readyState == socket.OPEN) {
             socket.send('');
         }
         timerId = setTimeout(keepAlive, timeout);
     }
 
+    $("#singleplayer").click(function () {
+        window.location = "/singleplayer";
+    });
 
     $("body").on('click','#white',function () {
         PLAYER_COLOR = 1;

@@ -4,6 +4,7 @@
 
 # Home page
 GET         /                                controllers.ApplicationController.index
+GET         /singleplayer                    controllers.ApplicationController.singleplayer
 GET         /signOut                         controllers.ApplicationController.signOut
 GET         /move                            controllers.ApplicationController.move(move: String, webSocketID: String)
 GET         /select                          controllers.ApplicationController.select(y: Int,x: Int, webSocketID: String)
