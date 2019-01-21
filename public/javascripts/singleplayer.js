@@ -17,12 +17,10 @@ $(document).ready(function(){
     var socket = new WebSocket(socketAddr +"/socket");
     //var socket = new WebSocket("ws://localhost:9000/socket");
     socket.onopen = function(){
+        socket.send("singleplayer");
         keepAlive();
     }
     socket.onmessage = function(message){
-        if(message.data === "wait"){
-            $(".chesscontainer").empty().append("<div class=\"d-flex justify-content-center m-5\"><div class=\"spinner-border \" style=\"width: 5rem; height: 5rem;\" role=\"status\"><span class=\"sr-only\">Loading...</span></div></div>");
-        }
         if(message.data.startsWith("load:")){
             var id = message.data.substring(5, message.data.length);
             if(id.length > 1){
@@ -41,17 +39,8 @@ $(document).ready(function(){
         timerId = setTimeout(keepAlive, timeout);
     }
 
-    $("#singleplayer").click(function () {
+    $("#multiplayer").click(function () {
         window.location = "/singleplayer";
-    });
-
-    $("body").on('click','#white',function () {
-        PLAYER_COLOR = 1;
-        socket.send("white");
-    });
-    $("body").on('click','#black',function () {
-        PLAYER_COLOR = 0;
-        socket.send("black");
     });
 
     function getChessfieldAjax(){
@@ -80,9 +69,6 @@ $(document).ready(function(){
             }
             board.append(row);
         }
-        if(CURRENT_PLAYER == PLAYER_COLOR){
-            board.addClass("shakeit");
-        }
 
         if(chessBoardJSON.grid.whiteCheck == true){
             board.find(".white_king").addClass("shakeallways");
@@ -94,7 +80,6 @@ $(document).ready(function(){
 
         $(".chesscontainer").empty().append(board);
 
-        alertPlayers();
     }
 
     function makeSquare(cells,row, color,rownumber, colnumber) {
@@ -111,16 +96,12 @@ $(document).ready(function(){
                 if(imageString.includes("black_king.png")){
                     king_id = "black_king";
                 }
-                if(PLAYER_COLOR == CURRENT_PLAYER){
 
 
-                    if(CURRENT_PLAYER && imageString.includes("white")){
-                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +'"><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'" ' + coordinates+ '>' + imageString + '</div></td>');
-                    } else if(!CURRENT_PLAYER && imageString.includes("black")) {
-                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
-                    } else {
-                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata " hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
-                    }
+                if(CURRENT_PLAYER && imageString.includes("white")){
+                    row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +'"><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'" ' + coordinates+ '>' + imageString + '</div></td>');
+                } else if(!CURRENT_PLAYER && imageString.includes("black")) {
+                    row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
                 } else {
                     row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata " hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
                 }
@@ -197,13 +178,5 @@ $(document).ready(function(){
         return "<img src='/assets/images/"+imageString +"'>";
     }
 
-    function alertPlayers(){
-        if(CURRENT_PLAYER == PLAYER_COLOR){
-            $.growl.notice({ message: "Du bist dran!" });
-        }else {
-            $.growl.notice({ message: "Dein Gegner ist dran!" });
-        }
-
-    }
 
 });

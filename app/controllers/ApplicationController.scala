@@ -96,6 +96,7 @@ class ApplicationController @Inject() (
 
         if (msg.equals("singleplayer")) {
           currentMatches = currentMatches :+ ((out, out, new ChessController))
+          out ! "load:" + out.toString()
         }
 
         if (msg.equals("white")) { //looking for blacks lol
