@@ -71,15 +71,22 @@ $(document).ready(function(){
         var i = 0;
         var cells = chessBoardJSON.grid.cells;
 
+        board.append($('<tr class=\'framerow\'><td class="frametop"></td><td class="frametop"><span>A</span></td><td class="frametop"><span>B</span></td><td class="frametop"><span>C</span></td><td class="frametop"><span>D</span></td><td class="frametop"><span>E</span></td><td class="frametop"><span>F</span></td><td class="frametop"><span>G</span></td><td class="frametop"><span>H</span></td><td class="frametop"></td></tr>'));
+
         for (var c = 0; c < 8; c++) {
             var row = $('<tr class=\'chessRow\'></tr>');
+            row.append("<td class='frameside'>"+(c+1)+"</td>");
             for (var d = 0; d < 8; d++) {
                 color = chooseColor(i);
+
                 makeSquare(cells, row, color, c, d);
                 i++;
             }
+            row.append("<td class='frameside upsidedown'>"+(c+1)+"</td>");
             board.append(row);
         }
+
+        board.append($('<tr class=\'framerow flip\'><td class="frametop"></td><td class="frametop"><span>A</span></td><td class="frametop"><span>B</span></td><td class="frametop"><span>C</span></td><td class="frametop"><span>D</span></td><td class="frametop"><span>E</span></td><td class="frametop"><span>F</span></td><td class="frametop"><span>G</span></td><td class="frametop"><span>H</span></td><td class="frametop"></td></tr>'));
 
         if(chessBoardJSON.grid.whiteCheck == true){
             board.find(".white_king > div > img").addClass("shakeallways");
@@ -96,6 +103,9 @@ $(document).ready(function(){
     function makeSquare(cells,row, color,rownumber, colnumber) {
         var piecePrinted = false;
         var coordinates = "y=" + rownumber + " x=" + colnumber;
+
+
+
         cells.forEach(function(cell){
             if(cell.posY == rownumber && cell.posX == colnumber){
                 var imageString = chooseChesspiece(cell.piece);

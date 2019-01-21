@@ -1,6 +1,7 @@
 body {
     padding: 0;
     margin: 0;
+    background-color: #222222 !important;
 }
 
 
@@ -8,7 +9,8 @@ body {
 .chesscontainer {
     margin-left:auto;
     margin-right: auto;
-    margin-top: 3rem;
+    margin-top: 2rem;
+    color: #fff;
 }
 
 .square {
@@ -118,10 +120,10 @@ img {
 
 
 
-@media (min-width: 240px) {
+@media (min-width: 270px) {
     .chesscontainer {
-        width: 240px;
-        height: 240px;
+        width: 270px;
+        height: 270px;
     }
     img, .chessRow{
         height: 30px;
@@ -129,11 +131,18 @@ img {
     h2{
         font-size: 1rem !important;
     }
+    .frametop{
+        height: 7.5px;
+    }
+    .frameside{
+        width: 7.5px;
+
+    }
 }
-@media (min-width: 480px) {
+@media (min-width: 510px) {
     .chesscontainer {
-        width: 480px;
-        height: 480px;
+        width: 510px;
+        height: 510px;
     }
     img, .chessRow{
         height: 60px;
@@ -142,12 +151,20 @@ img {
     h2{
         font-size: 1rem !important;
     }
+
+    .frametop{
+        height: 15px;
+    }
+    .frameside{
+        width: 15px;
+
+    }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 850px) {
     .chesscontainer {
-        width: 800px;
-        height: 800px;
+        width: 850px;
+        height: 850px;
     }
 
     img, .chessRow{
@@ -157,5 +174,30 @@ img {
     h2{
         font-size: 1.5rem !important;
     }
+    .frametop{
+        height: 25px;
+    }
+    .frameside{
+        width: 25px;
+
+    }
 }
 
+
+.flip > td {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    text-align: left;
+
+}
+.frameside, .frametop{
+    vertical-align: top;
+    text-align: left;
+    background-color: #562b0e;
+}
+.upsidedown{
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+}
