@@ -134,6 +134,16 @@ class ApplicationController @Inject() (
     }
   }
 
+  def removeSinglelayer(): Unit = {
+    var singleMatch: (ActorRef, ActorRef, ChessController) = null
+    for (singleplayerMatch <- currentMatches) {
+      if (singleplayerMatch._1.equals(singleplayerMatch._1)) {
+        singleMatch = singleplayerMatch
+      }
+    }
+    currentMatches = currentMatches.filter(_ != singleMatch)
+  }
+
   def getChesscontroller(webSocketID: String): ChessController = {
     println("ID to be found: " + webSocketID);
     var controller: ChessController = null
@@ -150,7 +160,10 @@ class ApplicationController @Inject() (
       if (chessmatch._3.equals(controller)) {
         println("Players found! Sending them LOAD-Events")
         chessmatch._1 ! "load:"
-        chessmatch._2 ! "load:"
+        if (!chessmatch._1.eq(chessmatch._2)) {
+          chessmatch._2 ! "load:"
+        }
+
       }
     }
   }

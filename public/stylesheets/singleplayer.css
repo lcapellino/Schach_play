@@ -1,0 +1,40 @@
+.rotateBlackToWhite{
+
+    animation: rotationBlackToWhite 1s 1;
+    transform: rotate(180deg);
+}
+.rotateWhiteToBlack{
+
+    animation: rotationWhiteToBlack 1s 1;
+    transform: rotate(360deg);
+}
+
+.rotateChessPieceBlackToWhite{
+    animation: rotationChessPieceBlackToWhite 1s 1;
+    transform: rotate(-180deg);
+}
+
+.rotateChessPieceWhiteToBlack{
+    animation: rotationChessPieceWhiteToBlack 1s 1;
+    transform: rotate(-360deg);
+}
+
+
+@keyframes rotationBlackToWhite {
+     from{transform: rotate(0deg);}
+     to{transform: rotate(180deg);}
+ }
+@keyframes rotationWhiteToBlack {
+    from{transform: rotate(180deg);}
+    to{transform: rotate(360deg);}
+}
+
+
+@keyframes rotationChessPieceBlackToWhite {
+    from{transform: rotate(0deg);}
+    to{transform: rotate(-180deg);}
+}
+@keyframes rotationChessPieceWhiteToBlack {
+    from{transform: rotate(-180deg);}
+    to{transform: rotate(-360deg);}
+}

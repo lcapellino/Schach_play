@@ -27,6 +27,19 @@ $(document).ready(function(){
                 WEBSOCKET_ID = encodeURIComponent(id);
             }
             getChessfieldAjax();
+            if(CURRENT_PLAYER == true){
+                $(".chesscontainer").removeClass("rotateWhiteToBlack");
+                $(".tabledata").removeClass("rotateChessPieceWhiteToBlack");
+
+                $(".chesscontainer").addClass("rotateBlackToWhite");
+                $(".tabledata").addClass("rotateChessPieceBlackToWhite");
+            } else {
+                $(".chesscontainer").addClass("rotateWhiteToBlack");
+                $(".tabledata").addClass("rotateChessPieceWhiteToBlack");
+
+                $(".chesscontainer").removeClass("rotateBlackToWhite");
+                $(".tabledata").removeClass("rotateChessPieceBlackToWhite");
+            }
         }
     }
 
@@ -39,13 +52,11 @@ $(document).ready(function(){
         timerId = setTimeout(keepAlive, timeout);
     }
 
-    $("#multiplayer").click(function () {
-        window.location = "/singleplayer";
-    });
 
     function getChessfieldAjax(){
         $.ajax({
             url: "/json?webSocketID=" + WEBSOCKET_ID,
+            async: false,
             context: document.body
         }).done(function(chessBoardJSON) {
             load_chessfield(chessBoardJSON)
@@ -71,10 +82,10 @@ $(document).ready(function(){
         }
 
         if(chessBoardJSON.grid.whiteCheck == true){
-            board.find(".white_king").addClass("shakeallways");
+            board.find(".white_king > div > img").addClass("shakeallways");
         }
         if(chessBoardJSON.grid.blackCheck == true){
-            board.find(".black_king").addClass("shakeallways");
+            board.find(".black_king > div > img").addClass("shakeallways");
         }
 
 
