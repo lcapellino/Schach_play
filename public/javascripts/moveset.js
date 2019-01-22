@@ -10,7 +10,6 @@ $(document).ready(function() {
         $.ajax({
             url: "/select?y=" + y + "&x=" + x + "&webSocketID=" + WEBSOCKET_ID,
             success: function(result){
-
            var moveJson = JSON.parse(result);
            moveJson.moves.forEach(function(field){
                var y = parseInt(field.y) + 1;

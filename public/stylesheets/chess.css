@@ -128,6 +128,10 @@ img {
     img, .chessRow{
         height: 30px;
     }
+
+    .tabledata{
+         width: 30px;
+     }
     h2{
         font-size: 1rem !important;
     }
@@ -151,6 +155,9 @@ img {
     h2{
         font-size: 1rem !important;
     }
+    .tabledata{
+        width: 60px;
+    }
 
     .frametop{
         height: 15px;
@@ -169,6 +176,9 @@ img {
 
     img, .chessRow{
         height: 100px;
+    }
+    .tabledata{
+        width: 100px;
     }
 
     h2{
