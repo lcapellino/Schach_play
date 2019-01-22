@@ -28,6 +28,5 @@ $(document).ready(function() {
             success: function(result){
                 //expect Websocket event.
             }});
-       // document.location.href = "/move?move=" + source + "-"+ dest;
     });
 });

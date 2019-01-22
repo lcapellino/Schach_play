@@ -4,6 +4,7 @@ var columnCharacter = ['A','B','C','D','E','F','G','H'];
 var WEBSOCKET_ID = "";
 var CURRENT_PLAYER;
 var PLAYER_COLOR;
+var waitIcon = $("<div class=\"d-flex justify-content-center m-5\"><div class=\"spinner-border \" style=\"width: 5rem; height: 5rem;\" role=\"status\"><span class=\"sr-only\">Loading...</span></div></div>");
 
 
 
@@ -15,13 +16,12 @@ $(document).ready(function(){
         socketAddr = "wss://" +window.location.host;
     }
     var socket = new WebSocket(socketAddr +"/socket");
-    //var socket = new WebSocket("ws://localhost:9000/socket");
     socket.onopen = function(){
         keepAlive();
     }
     socket.onmessage = function(message){
         if(message.data === "wait"){
-            $(".chesscontainer").empty().append("<div class=\"d-flex justify-content-center m-5\"><div class=\"spinner-border \" style=\"width: 5rem; height: 5rem;\" role=\"status\"><span class=\"sr-only\">Loading...</span></div></div>");
+            $(".chesscontainer").empty().append(waitIcon);
         }
         if(message.data.startsWith("load:")){
             var id = message.data.substring(5, message.data.length);
