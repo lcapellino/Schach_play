@@ -94,11 +94,18 @@ $(document).ready(function(){
             board.addClass("shakeit");
         }
 
+        var audio = new Audio('/assets/sounds/alert.mp3');
         if(chessBoardJSON.grid.whiteCheck == true){
-            board.find(".white_king").addClass("shakeallways");
+            board.find(".white_king > div > img").addClass("shakeallways");
+            if(PLAYER_COLOR == 1){
+                audio.play();
+            }
         }
         if(chessBoardJSON.grid.blackCheck == true){
-            board.find(".black_king").addClass("shakeallways");
+            board.find(".black_king > div > img").addClass("shakeallways");
+            if(PLAYER_COLOR == 0){
+                audio.play();
+            }
         }
 
 
