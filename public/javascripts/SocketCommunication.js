@@ -209,9 +209,9 @@ $(document).ready(function(){
 
     function alertPlayers(){
         if(CURRENT_PLAYER == PLAYER_COLOR){
-            $.growl.notice({ message: "Du bist dran!" });
+            $.growl({ title: "",message: "Du bist dran!" });
         }else {
-            $.growl.notice({ message: "Dein Gegner ist dran!" });
+            $.growl({title: "", message: "Dein Gegner ist dran!" });
         }
 
     }
