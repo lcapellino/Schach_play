@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
 
     Vue.component('todo-item', {
@@ -8,7 +7,7 @@ $(document).ready(function() {
             '</button>'
     })
 
-    var app7 = new Vue({
+    new Vue({
         el: '#colorSelect',
         data: {
             colorList: [
