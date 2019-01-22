@@ -83,7 +83,6 @@ class ApplicationController @Inject() (
     ActorFlow.actorRef { out =>
       println("connect received")
       SchachSocketActor.props(out)
-
     }
   }
   object SchachSocketActor {
@@ -93,19 +92,16 @@ class ApplicationController @Inject() (
   class SchachSocketActor(out: ActorRef) extends Actor {
     def receive = {
       case msg: String =>
-
         if (msg.equals("singleplayer")) {
           currentMatches = currentMatches :+ ((out, out, new ChessController))
           out ! "load:" + out.toString()
         }
-
-        if (msg.equals("white")) { //looking for blacks lol
+        if (msg.equals("white")) {
           searchPlayer(msg, "black")
         }
-        if (msg.equals("black")) { //looking for whites lol
+        if (msg.equals("black")) {
           searchPlayer(msg, "white")
         }
-
     }
     def searchPlayer(msg: String, color: String): Unit = {
       var foundPlayer = false;

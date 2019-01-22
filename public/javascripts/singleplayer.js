@@ -71,7 +71,7 @@ $(document).ready(function(){
         var i = 0;
         var cells = chessBoardJSON.grid.cells;
 
-        board.append($('<tr class=\'framerow\'><td class="frametop"></td><td class="frametop"><span>A</span></td><td class="frametop"><span>B</span></td><td class="frametop"><span>C</span></td><td class="frametop"><span>D</span></td><td class="frametop"><span>E</span></td><td class="frametop"><span>F</span></td><td class="frametop"><span>G</span></td><td class="frametop"><span>H</span></td><td class="frametop"></td></tr>'));
+        board.append($('<tr class=\'framerow\'><td class="frametop"></td><td class="frametop"><span>H</span></td><td class="frametop"><span>G</span></td><td class="frametop"><span>F</span></td><td class="frametop"><span>E</span></td><td class="frametop"><span>D</span></td><td class="frametop"><span>C</span></td><td class="frametop"><span>B</span></td><td class="frametop"><span>A</span></td><td class="frametop"></td></tr>'));
 
         for (var c = 0; c < 8; c++) {
             var row = $('<tr class=\'chessRow\'></tr>');
@@ -86,7 +86,7 @@ $(document).ready(function(){
             board.append(row);
         }
 
-        board.append($('<tr class=\'framerow flip\'><td class="frametop"></td><td class="frametop"><span>A</span></td><td class="frametop"><span>B</span></td><td class="frametop"><span>C</span></td><td class="frametop"><span>D</span></td><td class="frametop"><span>E</span></td><td class="frametop"><span>F</span></td><td class="frametop"><span>G</span></td><td class="frametop"><span>H</span></td><td class="frametop"></td></tr>'));
+        board.append($('<tr class=\'framerow flip\'><td class="frametop"></td><td class="frametop"><span>H</span></td><td class="frametop"><span>G</span></td><td class="frametop"><span>F</span></td><td class="frametop"><span>E</span></td><td class="frametop"><span>D</span></td><td class="frametop"><span>C</span></td><td class="frametop"><span>B</span></td><td class="frametop"><span>A</span></td><td class="frametop"></td></tr>'));
 
         if(chessBoardJSON.grid.whiteCheck == true){
             board.find(".white_king > div > img").addClass("shakeallways");
