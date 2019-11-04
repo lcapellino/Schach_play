@@ -3,13 +3,13 @@ $(document).ready(function() {
 
         var y = $(this).attr("y");
         var x = $(this).attr("x");
+
+        $("div").removeClass("selected");
+        $("td").removeClass("selectableField");
         $(this).addClass("selected");
         $.ajax({
             url: "/select?y=" + y + "&x=" + x + "&webSocketID=" + WEBSOCKET_ID,
             success: function(result){
-            $("td").removeClass("selected");
-            $("td").removeClass("selectableField");
-
            var moveJson = JSON.parse(result);
            moveJson.moves.forEach(function(field){
                var y = parseInt(field.y) + 1;
@@ -27,6 +27,5 @@ $(document).ready(function() {
             success: function(result){
                 //expect Websocket event.
             }});
-       // document.location.href = "/move?move=" + source + "-"+ dest;
     });
 });

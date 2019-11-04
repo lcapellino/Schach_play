@@ -1,10 +1,16 @@
 body {
     padding: 0;
     margin: 0;
+    background-color: #222222 !important;
 }
 
+
+
 .chesscontainer {
-    margin:auto;
+    margin-left:auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    color: #fff;
 }
 
 .square {
@@ -36,14 +42,45 @@ body {
     margin: 0px;
     padding: 0px;
 }
+
+.shakeit{
+    animation: shake 0.4s;
+    animation-iteration-count: 1;
+}
+
+.shakeallways{
+    animation: shake 0.4s;
+    animation-iteration-count: infinite;
+}
+
 .tabledata{
 
     margin: 0px;
     padding: 0px;
 }
+
+
 .moveable:hover{
     background-color: #68faff;
 }
+
+
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+
 .selected{
     background-color: #68faff;
 }
@@ -64,19 +101,11 @@ body {
     text-align:center;
 }
 
-.modal {
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .8 )
-                url('/assets/images/Loading_icon.gif')
-                50% 50%
-                no-repeat;
+.avatar{
+    height:10px;
 }
+
+
 body.loading .modal {
     display: block;
 }
@@ -91,43 +120,98 @@ img {
 
 
 
-@media (min-width: 240px) {
+@media (min-width: 270px) {
     .chesscontainer {
-        width: 240px;
-        height: 240px;
+        width: 270px;
+        height: 270px;
     }
     img, .chessRow{
         height: 30px;
     }
+
+    .tabledata{
+         width: 30px;
+     }
+    h2{
+        font-size: 1rem !important;
+    }
+    .frametop{
+        height: 7.5px;
+    }
+    .frameside{
+        width: 7.5px;
+
+    }
 }
-@media (min-width: 480px) {
+@media (min-width: 510px) {
     .chesscontainer {
-        width: 480px;
-        height: 480px;
+        width: 510px;
+        height: 510px;
     }
     img, .chessRow{
         height: 60px;
     }
+
+    h2{
+        font-size: 1rem !important;
+    }
+    .tabledata{
+        width: 60px;
+    }
+
+    .frametop{
+        height: 15px;
+    }
+    .frameside{
+        width: 15px;
+
+    }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 850px) {
     .chesscontainer {
-        width: 800px;
-        height: 800px;
+        width: 850px;
+        height: 850px;
     }
 
     img, .chessRow{
         height: 100px;
     }
+    .tabledata{
+        width: 100px;
+    }
+
+    h2{
+        font-size: 1.5rem !important;
+    }
+    .frametop{
+        height: 25px;
+    }
+    .frameside{
+        width: 25px;
+
+    }
 }
 
-@media (min-width: 1080px) {
-    .chesscontainer {
-        width: 1080px;
-        height: 1080px;
-    }
 
-    img, .chessRow{
-        height: 135px;
-    }
+.flip > td {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    text-align: left;
+
+}
+.frameside, .frametop{
+    vertical-align: top;
+    text-align: left;
+    background-color: #562b0e;
+}
+.upsidedown{
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+}
+
+.navbar{
+    z-index: 2;
 }

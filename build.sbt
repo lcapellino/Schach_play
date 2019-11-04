@@ -2,13 +2,18 @@ import com.typesafe.sbt.SbtScalariform._
 
 import scalariform.formatter.preferences._
 
-name := "play-silhouette-seed"
+name := "schach_play"
 
 version := "5.0.7"
 
 scalaVersion := "2.12.8"
 
 resolvers += Resolver.jcenterRepo
+resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
+      
+resolvers += "Akka Snapshot Repository" at "http://repo.akka.io/snapshots/"
+      
+scalaVersion := "2.12.8"
 
 resolvers += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 

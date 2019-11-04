@@ -2,15 +2,16 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET         /                                controllers.ApplicationController.index
-GET         /signOut                         controllers.ApplicationController.signOut
-GET         /move                            controllers.ApplicationController.move(move: String, webSocketID: String)
-GET         /select                          controllers.ApplicationController.select(y: Int,x: Int, webSocketID: String)
-GET         /json                            controllers.ApplicationController.json(webSocketID: String)
-GET         /authenticate/:provider          controllers.SocialAuthController.authenticate(provider)
-
-#JSON Routes
+# Webapp
+GET         /                           controllers.ApplicationController.index
+GET         /singleplayer               controllers.ApplicationController.singleplayer
+GET         /signOut                    controllers.ApplicationController.signOut
+GET         /move                       controllers.ApplicationController.move(move: String, webSocketID: String)
+GET         /select                     controllers.ApplicationController.select(y: Int,x: Int, webSocketID: String)
+GET         /json                       controllers.ApplicationController.json(webSocketID: String)
+GET         /authenticate/:provider     controllers.SocialAuthController.authenticate(provider)
+#Websocket
+GET     /socket                         controllers.ApplicationController.socket
 
 
 GET         /signUp                          controllers.SignUpController.view
@@ -33,5 +34,3 @@ GET         /account/activate/:token         controllers.ActivateAccountControll
 GET         /assets/*file                    controllers.Assets.versioned(file)
 ->          /webjars                         webjars.Routes
 
-#Websocket
-GET     /socket                     controllers.ApplicationController.socket

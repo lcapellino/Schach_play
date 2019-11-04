@@ -4,7 +4,6 @@ var columnCharacter = ['A','B','C','D','E','F','G','H'];
 var WEBSOCKET_ID = "";
 var CURRENT_PLAYER;
 var PLAYER_COLOR;
-var waitIcon = $("<div class=\"d-flex justify-content-center m-5\"><div class=\"spinner-border \" style=\"width: 5rem; height: 5rem;\" role=\"status\"><span class=\"sr-only\">Loading...</span></div></div>");
 
 
 
@@ -16,19 +15,31 @@ $(document).ready(function(){
         socketAddr = "wss://" +window.location.host;
     }
     var socket = new WebSocket(socketAddr +"/socket");
+    //var socket = new WebSocket("ws://localhost:9000/socket");
     socket.onopen = function(){
+        socket.send("singleplayer");
         keepAlive();
     }
     socket.onmessage = function(message){
-        if(message.data === "wait"){
-            $(".chesscontainer").empty().append(waitIcon);
-        }
         if(message.data.startsWith("load:")){
             var id = message.data.substring(5, message.data.length);
             if(id.length > 1){
                 WEBSOCKET_ID = encodeURIComponent(id);
             }
             getChessfieldAjax();
+            if(CURRENT_PLAYER == true){
+                $(".chesscontainer").removeClass("rotateWhiteToBlack");
+                $(".tabledata").removeClass("rotateChessPieceWhiteToBlack");
+
+                $(".chesscontainer").addClass("rotateBlackToWhite");
+                $(".tabledata").addClass("rotateChessPieceBlackToWhite");
+            } else {
+                $(".chesscontainer").addClass("rotateWhiteToBlack");
+                $(".tabledata").addClass("rotateChessPieceWhiteToBlack");
+
+                $(".chesscontainer").removeClass("rotateBlackToWhite");
+                $(".tabledata").removeClass("rotateChessPieceBlackToWhite");
+            }
         }
     }
 
@@ -41,30 +52,14 @@ $(document).ready(function(){
         timerId = setTimeout(keepAlive, timeout);
     }
 
-    $("#singleplayer").click(function () {
-        window.location = "/singleplayer";
-    });
-
-    $("body").on('click','#white',function () {
-        PLAYER_COLOR = 1;
-        socket.send("white");
-    });
-    $("body").on('click','#black',function () {
-        PLAYER_COLOR = 0;
-        socket.send("black");
-    });
 
     function getChessfieldAjax(){
         $.ajax({
             url: "/json?webSocketID=" + WEBSOCKET_ID,
+            async: false,
             context: document.body
         }).done(function(chessBoardJSON) {
             load_chessfield(chessBoardJSON)
-
-            if(PLAYER_COLOR == true){
-                $(".chesscontainer").addClass("upsidedown");
-                $(".tabledata").addClass("upsidedown");
-            }
         });
     }
 
@@ -75,12 +70,15 @@ $(document).ready(function(){
         var color;
         var i = 0;
         var cells = chessBoardJSON.grid.cells;
+
         board.append($('<tr class=\'framerow\'><td class="frametop"></td><td class="frametop"><span>H</span></td><td class="frametop"><span>G</span></td><td class="frametop"><span>F</span></td><td class="frametop"><span>E</span></td><td class="frametop"><span>D</span></td><td class="frametop"><span>C</span></td><td class="frametop"><span>B</span></td><td class="frametop"><span>A</span></td><td class="frametop"></td></tr>'));
+
         for (var c = 0; c < 8; c++) {
             var row = $('<tr class=\'chessRow\'></tr>');
             row.append("<td class='frameside'>"+(c+1)+"</td>");
             for (var d = 0; d < 8; d++) {
                 color = chooseColor(i);
+
                 makeSquare(cells, row, color, c, d);
                 i++;
             }
@@ -90,33 +88,24 @@ $(document).ready(function(){
 
         board.append($('<tr class=\'framerow flip\'><td class="frametop"></td><td class="frametop"><span>H</span></td><td class="frametop"><span>G</span></td><td class="frametop"><span>F</span></td><td class="frametop"><span>E</span></td><td class="frametop"><span>D</span></td><td class="frametop"><span>C</span></td><td class="frametop"><span>B</span></td><td class="frametop"><span>A</span></td><td class="frametop"></td></tr>'));
 
-        if(CURRENT_PLAYER == PLAYER_COLOR){
-            board.addClass("shakeit");
-        }
-
-        var audio = new Audio('/assets/sounds/alert.mp3');
         if(chessBoardJSON.grid.whiteCheck == true){
             board.find(".white_king > div > img").addClass("shakeallways");
-            if(PLAYER_COLOR == 1){
-                audio.play();
-            }
         }
         if(chessBoardJSON.grid.blackCheck == true){
             board.find(".black_king > div > img").addClass("shakeallways");
-            if(PLAYER_COLOR == 0){
-                audio.play();
-            }
         }
 
 
         $(".chesscontainer").empty().append(board);
 
-        alertPlayers();
     }
 
     function makeSquare(cells,row, color,rownumber, colnumber) {
         var piecePrinted = false;
         var coordinates = "y=" + rownumber + " x=" + colnumber;
+
+
+
         cells.forEach(function(cell){
             if(cell.posY == rownumber && cell.posX == colnumber){
                 var imageString = chooseChesspiece(cell.piece);
@@ -128,16 +117,12 @@ $(document).ready(function(){
                 if(imageString.includes("black_king.png")){
                     king_id = "black_king";
                 }
-                if(PLAYER_COLOR == CURRENT_PLAYER){
 
 
-                    if(CURRENT_PLAYER && imageString.includes("white")){
-                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +'"><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'" ' + coordinates+ '>' + imageString + '</div></td>');
-                    } else if(!CURRENT_PLAYER && imageString.includes("black")) {
-                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
-                    } else {
-                        row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata " hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
-                    }
+                if(CURRENT_PLAYER && imageString.includes("white")){
+                    row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +'"><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'" ' + coordinates+ '>' + imageString + '</div></td>');
+                } else if(!CURRENT_PLAYER && imageString.includes("black")) {
+                    row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata  moveable" hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
                 } else {
                     row.append('<td id="' + columnCharacter[colnumber] + (rownumber+1) + '" class="square ' + color + ' ' + king_id +' "><div class="tabledata " hasmoved="'+ cell.hasMoved +'"' + coordinates+ '>' + imageString + '</div></td>');
                 }
@@ -214,13 +199,5 @@ $(document).ready(function(){
         return "<img src='/assets/images/"+imageString +"'>";
     }
 
-    function alertPlayers(){
-        if(CURRENT_PLAYER == PLAYER_COLOR){
-            $.growl({ title: "",message: "Du bist dran!" });
-        }else {
-            $.growl({title: "", message: "Dein Gegner ist dran!" });
-        }
-
-    }
 
 });

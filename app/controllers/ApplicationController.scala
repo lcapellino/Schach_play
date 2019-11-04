@@ -52,12 +52,18 @@ class ApplicationController @Inject() (
    * @return The result to display.
    */
   def index = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-    Future.successful(Ok(views.html.welcome()))
+    val white_count = searchingPlayers.filter(_._1.equals("white")).size
+    val black_count = searchingPlayers.filter(_._1.equals("black")).size
+    Future.successful(Ok(views.html.multiplayer(request.identity, white_count, black_count)))
+  }
+
+  def singleplayer = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    Future.successful(Ok(views.html.singleplayer(request.identity)))
   }
 
   def select(y: Int, x: Int, webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     var controller = getChesscontroller(webSocketID)
-    Future.successful(Ok(views.html.selectableFieldsAjax(controller.chessBoard(y)(x).getPossibleMoves(controller.chessBoard))));
+    Future.successful(Ok(views.html.selectableFieldsAjax(controller.chessBoard.board(y)(x).getPossibleMoves(controller.chessBoard))));
   }
 
   def move(move: String, webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
@@ -70,14 +76,13 @@ class ApplicationController @Inject() (
 
   def json(webSocketID: String) = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     var controller = getChesscontroller(webSocketID)
-    Future.successful(Ok(jsonConverter.gridToJson(controller.chessBoard, controller.currentPlayer)))
+    Future.successful(Ok(jsonConverter.gridToJson(controller.chessBoard)))
   }
 
   def socket = WebSocket.accept[String, String] { request =>
     ActorFlow.actorRef { out =>
       println("connect received")
       SchachSocketActor.props(out)
-
     }
   }
   object SchachSocketActor {
@@ -87,15 +92,16 @@ class ApplicationController @Inject() (
   class SchachSocketActor(out: ActorRef) extends Actor {
     def receive = {
       case msg: String =>
-
-        if (msg.equals("white")) { //looking for blacks lol
+        if (msg.equals("singleplayer")) {
+          currentMatches = currentMatches :+ ((out, out, new ChessController))
+          out ! "load:" + out.toString()
+        }
+        if (msg.equals("white")) {
           searchPlayer(msg, "black")
         }
-        if (msg.equals("black")) { //looking for whites lol
+        if (msg.equals("black")) {
           searchPlayer(msg, "white")
         }
-
-      //out.tell("HI", sender())
     }
     def searchPlayer(msg: String, color: String): Unit = {
       var foundPlayer = false;
@@ -124,6 +130,16 @@ class ApplicationController @Inject() (
     }
   }
 
+  def removeSinglelayer(): Unit = {
+    var singleMatch: (ActorRef, ActorRef, ChessController) = null
+    for (singleplayerMatch <- currentMatches) {
+      if (singleplayerMatch._1.equals(singleplayerMatch._1)) {
+        singleMatch = singleplayerMatch
+      }
+    }
+    currentMatches = currentMatches.filter(_ != singleMatch)
+  }
+
   def getChesscontroller(webSocketID: String): ChessController = {
     println("ID to be found: " + webSocketID);
     var controller: ChessController = null
@@ -131,7 +147,6 @@ class ApplicationController @Inject() (
       if (chessmatch._1.toString().equals(webSocketID) || chessmatch._2.toString().equals(webSocketID)) {
         controller = chessmatch._3
 
-        println("gefundener Chesscontroller:" + controller.boardSize)
       }
     }
     controller
@@ -141,7 +156,10 @@ class ApplicationController @Inject() (
       if (chessmatch._3.equals(controller)) {
         println("Players found! Sending them LOAD-Events")
         chessmatch._1 ! "load:"
-        chessmatch._2 ! "load:"
+        if (!chessmatch._1.eq(chessmatch._2)) {
+          chessmatch._2 ! "load:"
+        }
+
       }
     }
   }
